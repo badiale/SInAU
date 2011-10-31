@@ -3,17 +3,29 @@ package org.sinau.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.Session;
 import org.sinau.config.Config;
+import org.sinau.db.DBManager;
 
 import com.sun.jersey.api.client.GenericType;
 
+@Entity
 @XmlRootElement
 public class Professor implements Serializable {
+	@Id
+	private Integer id;
 	private Boolean coordenador;
 	private Departamento departamento;
+	
+	@OneToOne
+	@JoinColumn(name = "usuarioid")
 	private Usuario usuario;
 	
 	public Professor() {}
@@ -25,7 +37,8 @@ public class Professor implements Serializable {
 	
 	@XmlElement(name = "idusuario")
 	public void setIdusuario (String id) {
-		this.usuario = Usuario.get(id);
+		this.id = Integer.parseInt(id);
+		this.usuario = Usuario.load(this.id);
 	}
 	
 	public Boolean getCoordenador() {
@@ -62,9 +75,29 @@ public class Professor implements Serializable {
 		return Config.getInstance().getService("professores").get(new GenericType<List<Professor>>() {});
 	}
 	
+	public static Professor load(Integer id) {
+		Session session = DBManager.getSession();
+		return (Professor) session.load(Professor.class, id);
+	}
+	
+	public void save() {
+		Session session = DBManager.getSession();
+		session.saveOrUpdate(this);
+	}
+	
 	// teste
 	public static void main(String[] args) {
-		System.out.println(Professor.getAll());
+		Session session = DBManager.getSession();
+		session.beginTransaction();
+		
+		for (Professor p : getAll()) {
+			session.saveOrUpdate(p);
+		}
+		
+		Usuario u = (Usuario) session.load(Usuario.class, new Integer(45));
+		System.out.println(u.getProfessor());
+		
+		session.getTransaction().commit();
 	}
 
 }

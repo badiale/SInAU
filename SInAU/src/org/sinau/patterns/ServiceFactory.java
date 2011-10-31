@@ -5,6 +5,11 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Properties;
 
+import org.sinau.beans.Usuario;
+import org.sinau.config.Config;
+
+import com.sun.jersey.api.client.GenericType;
+
 /**
  * Classe que permite criar listas com classes, dado um servico.
  * <p>Esta classe funciona como no <i>pattern</i> <b>Factory Method</b>.
@@ -41,8 +46,10 @@ public class ServiceFactory {
 	public List create(String servico) throws Exception {
 		String servicoClasse = classes.getProperty(servico);
 		Class c = Class.forName(servicoClasse);
-		Method m = c.getMethod("getAll", new Class[] {});
-		return (List) m.invoke(null, null);
+		Object o = c.newInstance();
+//		Method m = c.getMethod("getAll", new Class[] {});
+//		return (List) m.invoke(null, null);
+		return Config.getInstance().getService(servico).get(new GenericType<List<o.class>>() {});
 	}
 	
 	/**
@@ -56,9 +63,12 @@ public class ServiceFactory {
 	 * @param args 
 	 * */
 	public static void main(String[] args) throws Exception {
+		System.out.println(Usuario.class);
+		System.out.println(Usuario.class.getName());
+		System.out.println(new Usuario().getClass());
+		
 		ServiceFactory sf = new ServiceFactory();
 		List lista = sf.create("usuarios");
-		
 		for (Object item : lista) {
 			System.out.println(item);
 		}

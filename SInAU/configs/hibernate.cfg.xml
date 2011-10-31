@@ -32,6 +32,7 @@
 		<!-- Mapeamento: colocar o nome da classe que vai ser mapeada -->
 		<mapping class="org.sinau.beans.Usuario"/>
 		<mapping class="org.sinau.beans.Administrador"/>
+		<mapping class="org.sinau.beans.Professor"/>
 		
     </session-factory>
 

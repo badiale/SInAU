@@ -36,6 +36,10 @@ public class Usuario implements Serializable {
 	@XmlTransient
 	public Administrador admin;
 	
+	@OneToOne(mappedBy = "usuario")
+	@XmlTransient
+	public Professor professor;
+	
 	/**
 	 * Pojo.
 	 * */
@@ -71,6 +75,14 @@ public class Usuario implements Serializable {
 
 	public String getTipo() {
 		return tipo;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
 
 	public void setAtivo(Boolean ativo) {
@@ -121,14 +133,25 @@ public class Usuario implements Serializable {
 		return Config.getInstance().getService("usuarios").get(new GenericType<List<Usuario>>() {});
 	}
 	
-	@Override
-	public String toString() {
-		return "Usuario [ativo=" + ativo + ", email=" + email + ", idusuario="
-				+ idusuario + ", nome=" + nome + ", nomeUsuario=" + nomeUsuario
-				+ ", senha=" + senha + ", telefone=" + telefone + ", tipo="
-				+ tipo + "]";
+	public static Usuario load(Integer id) {
+		Session session = DBManager.getSession();
+		return (Usuario) session.load(Usuario.class, id);
 	}
 	
+	public void save() {
+		Session session = DBManager.getSession();
+		session.saveOrUpdate(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "Usuario [idusuario=" + idusuario + ", ativo=" + ativo
+				+ ", email=" + email + ", nome=" + nome + ", nomeUsuario="
+				+ nomeUsuario + ", senha=" + senha + ", telefone=" + telefone
+				+ ", tipo=" + tipo + ", admin=" + admin + ", professor="
+				+ professor + "]";
+	}
+
 	// teste
 	public static void main (String[] args) {
 		Session session = DBManager.getSession();
