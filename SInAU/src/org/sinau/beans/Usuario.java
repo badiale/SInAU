@@ -1,21 +1,18 @@
 package org.sinau.beans;
 
-import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.swing.DefaultButtonModel;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.Session;
-import org.hibernate.annotations.GenericGenerator;
 import org.sinau.config.Config;
 import org.sinau.db.DBManager;
 
@@ -25,7 +22,7 @@ import com.sun.jersey.api.client.GenericType;
 @XmlRootElement
 public class Usuario implements Serializable {
 	@Id
-	private String idusuario;
+	private Integer idusuario;
 	
 	private Boolean ativo;
 	private String email;
@@ -34,6 +31,10 @@ public class Usuario implements Serializable {
 	private String senha;
 	private String telefone;
 	private String tipo;
+	
+	@OneToOne(mappedBy = "usuario")
+	@XmlTransient
+	public Administrador admin;
 	
 	/**
 	 * Pojo.
@@ -48,7 +49,7 @@ public class Usuario implements Serializable {
 		return email;
 	}
 
-	public String getIdusuario() {
+	public Integer getIdusuario() {
 		return idusuario;
 	}
 
@@ -80,7 +81,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public void setIdusuario(String idusuario) {
+	public void setIdusuario(Integer idusuario) {
 		this.idusuario = idusuario;
 	}
 
@@ -104,7 +105,14 @@ public class Usuario implements Serializable {
 		this.tipo = tipo;
 	}
 
-	@GET
+	public Administrador getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrador admin) {
+		this.admin = admin;
+	}
+
 	public static Usuario get(String id) {
 		return Config.getInstance().getService("usuarios").path(id).get(Usuario.class);
 	}
@@ -125,9 +133,10 @@ public class Usuario implements Serializable {
 	public static void main (String[] args) {
 		Session session = DBManager.getSession();
 		session.beginTransaction();
-		session.update(Usuario.get("1"));
-		session.getTransaction().commit();
 		
-		for (Usuario u : Usuario.getAll()) System.out.println(u);
+		for (Usuario u : Usuario.getAll())
+			session.saveOrUpdate(u);
+		
+		session.getTransaction().commit();
 	}
 }
