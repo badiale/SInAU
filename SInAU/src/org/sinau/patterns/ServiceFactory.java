@@ -2,8 +2,10 @@ package org.sinau.patterns;
 
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 
 import org.sinau.beans.Usuario;
 import org.sinau.config.Config;
@@ -17,6 +19,7 @@ import com.sun.jersey.api.client.GenericType;
  * <br>Como o servidor não permite pegar um objeto isolado, não é possível pegar um único objeto. Porém é possível pegar uma lista com todos eles.
  * */
 public class ServiceFactory {
+	private static final int List = 0;
 	private Properties classes;
 	
 	/**
@@ -46,10 +49,9 @@ public class ServiceFactory {
 	public List create(String servico) throws Exception {
 		String servicoClasse = classes.getProperty(servico);
 		Class c = Class.forName(servicoClasse);
-		Object o = c.newInstance();
-//		Method m = c.getMethod("getAll", new Class[] {});
-//		return (List) m.invoke(null, null);
-		return Config.getInstance().getService(servico).get(new GenericType<List<o.class>>() {});
+		Method m = c.getMethod("getAll", new Class[] {});
+		return (List) m.invoke(null, null);
+//		return Config.getInstance().getService(servico).get(new GenericType(c));
 	}
 	
 	/**
@@ -63,10 +65,6 @@ public class ServiceFactory {
 	 * @param args 
 	 * */
 	public static void main(String[] args) throws Exception {
-		System.out.println(Usuario.class);
-		System.out.println(Usuario.class.getName());
-		System.out.println(new Usuario().getClass());
-		
 		ServiceFactory sf = new ServiceFactory();
 		List lista = sf.create("usuarios");
 		for (Object item : lista) {
