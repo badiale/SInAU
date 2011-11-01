@@ -3,11 +3,12 @@ package org.sinau.patterns;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
-import org.sinau.beans.Usuario;
+import org.sinau.beans.*;
 import org.sinau.config.Config;
 
 import com.sun.jersey.api.client.GenericType;
@@ -47,11 +48,20 @@ public class ServiceFactory {
 	 * @param servico String que diferencia a lista de retorno.
 	 * */
 	public List create(String servico) throws Exception {
-		String servicoClasse = classes.getProperty(servico);
-		Class c = Class.forName(servicoClasse);
-		Method m = c.getMethod("getAll", new Class[] {});
-		return (List) m.invoke(null, null);
-//		return Config.getInstance().getService(servico).get(new GenericType(c));
+		HashMap<String, GenericType> classes = new HashMap<String, GenericType>();
+		
+		classes.put("usuarios", new GenericType<List<Usuario>>() {});
+		classes.put("alunos", new GenericType<List<Aluno>>() {});
+		classes.put("professores", new GenericType<List<Professor>>() {});
+		classes.put("administradores", new GenericType<List<Administrador>>() {});
+		classes.put("alunodisciplina", new GenericType<List<AlunoDisciplina>>() {});
+		classes.put("cursos", new GenericType<List<Curso>>() {});
+		classes.put("departamentos", new GenericType<List<Departamento>>() {});
+		classes.put("disciplinas", new GenericType<List<Disciplina>>() {});
+		classes.put("profdisciplinas", new GenericType<List<ProfessorDisciplina>>() {});
+		classes.put("universidades", new GenericType<List<Universidade>>() {});
+		
+		return Config.getInstance().getService(servico).get(classes.get(servico));
 	}
 	
 	/**

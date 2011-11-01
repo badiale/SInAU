@@ -37,12 +37,4 @@ public class AlunoDisciplina implements Serializable {
 		return "AlunoDisciplina [alunoDisciplinaPK=" + alunoDisciplinaPK
 				+ ", nota=" + nota + "]";
 	}
-	public static List<AlunoDisciplina> getAll() {
-		return Config.getInstance().getService("alunodisciplina").get(new GenericType<List<AlunoDisciplina>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(getAll());
-	}
 }

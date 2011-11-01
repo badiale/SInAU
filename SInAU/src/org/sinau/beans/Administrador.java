@@ -63,10 +63,6 @@ public class Administrador implements Serializable {
 		return "Administrador [cargo=" + cargo + ", usuario=" + usuario + "]";
 	}
 
-	public static List<Administrador> getAll() {
-		return Config.getInstance().getService("administradores").get(new GenericType<List<Administrador>>() {});
-	}
-	
 	public static Administrador load(Integer id) {
 		Session session = DBManager.getSession();
 		return (Administrador) session.load(Administrador.class, id);
@@ -75,19 +71,5 @@ public class Administrador implements Serializable {
 	public void save() {
 		Session session = DBManager.getSession();
 		session.saveOrUpdate(this);
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		Session session = DBManager.getSession();
-		session.beginTransaction();
-		
-		for (Administrador a : getAll())
-			session.saveOrUpdate(a);
-		
-		Usuario u = (Usuario) session.load(Usuario.class, new Integer(42));
-		System.out.println(u.getAdmin());
-		
-		session.getTransaction().commit();
 	}
 }

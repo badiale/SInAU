@@ -25,7 +25,7 @@ public class Aluno implements Serializable {
 	
 	@XmlElement(name = "idusuario")
 	public void setIdusuario (String id) {
-		this.usuario = Usuario.get(id);
+		this.usuario = Usuario.load(Integer.parseInt(id));
 	}
 	
 	public Date getAnoInicio() {
@@ -83,14 +83,5 @@ public class Aluno implements Serializable {
 				+ ", endereco=" + endereco + ", usuario=" + usuario
 				+ ", matriculaNusp=" + matriculaNusp + ", semestre=" + semestre
 				+ "]";
-	}
-	
-	public static List<Aluno> getAll() {
-		return Config.getInstance().getService("alunos").get(new GenericType<List<Aluno>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(Aluno.getAll());
 	}
 }

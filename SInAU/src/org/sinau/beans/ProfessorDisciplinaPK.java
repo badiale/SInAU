@@ -37,6 +37,4 @@ public class ProfessorDisciplinaPK implements Serializable {
 		return "ProfessorDisciplinaPK [disciplina=" + disciplina + ", usuario="
 				+ usuario + "]";
 	}
-	
-	
 }

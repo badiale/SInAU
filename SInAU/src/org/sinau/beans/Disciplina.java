@@ -68,28 +68,16 @@ public class Disciplina implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	public void setSala(Integer sala) {
 		this.sala = sala;
 	}
+
 	@Override
 	public String toString() {
 		return "Disciplina [cargaHoraria=" + cargaHoraria + ", curso="
 				+ curso + ", descricao=" + descricao + ", horario="
 				+ horario + ", iddisciplina=" + iddisciplina + ", nome=" + nome
 				+ ", sala=" + sala + "]";
-	}
-	
-	public static Disciplina get(String id) {
-		return Config.getInstance().getService("disciplinas").path(id).get(Disciplina.class);
-	}
-	
-	public static List<Disciplina> getAll() {
-		return Config.getInstance().getService("disciplinas").get(new GenericType<List<Disciplina>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(get("1"));
-		System.out.println(getAll());
 	}
 }

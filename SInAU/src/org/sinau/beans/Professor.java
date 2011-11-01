@@ -71,10 +71,6 @@ public class Professor implements Serializable {
 				+ departamento + ", usuario=" + usuario + "]";
 	}
 	
-	public static List<Professor> getAll() {
-		return Config.getInstance().getService("professores").get(new GenericType<List<Professor>>() {});
-	}
-	
 	public static Professor load(Integer id) {
 		Session session = DBManager.getSession();
 		return (Professor) session.load(Professor.class, id);
@@ -84,20 +80,4 @@ public class Professor implements Serializable {
 		Session session = DBManager.getSession();
 		session.saveOrUpdate(this);
 	}
-	
-	// teste
-	public static void main(String[] args) {
-		Session session = DBManager.getSession();
-		session.beginTransaction();
-		
-		for (Professor p : getAll()) {
-			session.saveOrUpdate(p);
-		}
-		
-		Usuario u = (Usuario) session.load(Usuario.class, new Integer(45));
-		System.out.println(u.getProfessor());
-		
-		session.getTransaction().commit();
-	}
-
 }

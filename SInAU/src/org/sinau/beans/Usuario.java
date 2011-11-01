@@ -125,14 +125,6 @@ public class Usuario implements Serializable {
 		this.admin = admin;
 	}
 
-	public static Usuario get(String id) {
-		return Config.getInstance().getService("usuarios").path(id).get(Usuario.class);
-	}
-	
-	public static List<Usuario> getAll() {
-		return Config.getInstance().getService("usuarios").get(new GenericType<List<Usuario>>() {});
-	}
-	
 	public static Usuario load(Integer id) {
 		Session session = DBManager.getSession();
 		return (Usuario) session.load(Usuario.class, id);
@@ -150,16 +142,5 @@ public class Usuario implements Serializable {
 				+ nomeUsuario + ", senha=" + senha + ", telefone=" + telefone
 				+ ", tipo=" + tipo + ", admin=" + admin + ", professor="
 				+ professor + "]";
-	}
-
-	// teste
-	public static void main (String[] args) {
-		Session session = DBManager.getSession();
-		session.beginTransaction();
-		
-		for (Usuario u : Usuario.getAll())
-			session.saveOrUpdate(u);
-		
-		session.getTransaction().commit();
 	}
 }

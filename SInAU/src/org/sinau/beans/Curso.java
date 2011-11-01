@@ -63,18 +63,4 @@ public class Curso implements Serializable {
 				+ ", departamento=" + departamento + ", nome=" + nome
 				+ ", vagas=" + vagas + "]";
 	}
-	
-	public static Curso get(String id) {
-		return Config.getInstance().getService("cursos").path(id).get(Curso.class);
-	}
-	
-	public static List<Curso> getAll() {
-		return Config.getInstance().getService("cursos").get(new GenericType<List<Curso>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(get("1"));
-		System.out.println(getAll());
-	}
 }

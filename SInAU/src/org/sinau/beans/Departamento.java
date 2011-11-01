@@ -56,18 +56,4 @@ public class Departamento implements Serializable {
 				+ ", universidade=" + universidade + ", nome=" + nome
 				+ ", telefone=" + telefone + "]";
 	}
-	
-	public static Departamento get(String id) {
-		return Config.getInstance().getService("departamentos").path(id).get(Departamento.class);
-	}
-	
-	public static List<Departamento> getAll() {
-		return Config.getInstance().getService("departamentos").get(new GenericType<List<Departamento>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(get("1"));
-		System.out.println(getAll());
-	}
 }

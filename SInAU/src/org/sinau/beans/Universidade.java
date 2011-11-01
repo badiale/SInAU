@@ -53,18 +53,4 @@ public class Universidade implements Serializable {
 				+ ", endereco=" + endereco + ", iduniversidade="
 				+ iduniversidade + ", nome=" + nome + "]";
 	}
-	
-	public static Universidade get(String id) {
-		return Config.getInstance().getService("universidades").path(id).get(Universidade.class);
-	}
-	
-	public static List<Universidade> getAll() {
-		return Config.getInstance().getService("universidades").get(new GenericType<List<Universidade>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(get("1"));
-		System.out.println(getAll());
-	}
 }

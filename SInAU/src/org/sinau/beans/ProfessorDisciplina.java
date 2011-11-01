@@ -26,13 +26,4 @@ public class ProfessorDisciplina implements Serializable {
 		return "ProfessorDisciplina [professorDisciplinaPK="
 				+ professorDisciplinaPK + "]";
 	}
-
-	public static List<ProfessorDisciplina> getAll() {
-		return Config.getInstance().getService("profdisciplinas").get(new GenericType<List<ProfessorDisciplina>>() {});
-	}
-	
-	// teste
-	public static void main(String[] args) {
-		System.out.println(getAll());
-	}
 }
