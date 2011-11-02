@@ -22,7 +22,7 @@ public class Professor implements Serializable {
 	@Id
 	private Integer id;
 	private Boolean coordenador;
-	private Departamento departamento;
+	//private Departamento departamento;
 	
 	@OneToOne
 	@JoinColumn(name = "usuarioid")
@@ -32,7 +32,7 @@ public class Professor implements Serializable {
 	
 	@XmlElement(name = "iddepartamento")
 	public void setIddepartamento (String id) {
-		this.departamento = Departamento.get(id);
+//		this.departamento = Departamento.get(id);
 	}
 	
 	@XmlElement(name = "idusuario")
@@ -46,7 +46,7 @@ public class Professor implements Serializable {
 	}
 
 	public Departamento getDepartamento() {
-		return departamento;
+//		return departamento;
 	}
 
 	public Usuario getUsuario() {
@@ -58,7 +58,7 @@ public class Professor implements Serializable {
 	}
 
 	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
+//		this.departamento = departamento;
 	}
 
 	public void setUsuario(Usuario usuario) {
@@ -68,7 +68,7 @@ public class Professor implements Serializable {
 	@Override
 	public String toString() {
 		return "Professor [coordenador=" + coordenador + ", departamento="
-				+ departamento + ", usuario=" + usuario + "]";
+				+ /*departamento +", usuario=" + usuario + */ "]";
 	}
 	
 	public static Professor load(Integer id) {
