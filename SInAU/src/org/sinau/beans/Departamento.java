@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.sinau.config.Config;
+import org.sinau.patterns.DBLoad;
 
 import com.sun.jersey.api.client.GenericType;
 
@@ -25,7 +26,9 @@ public class Departamento implements Serializable {
 	
 	@XmlElement(name = "iduniversidade")
 	public void setIduniversidade(String iduniversidade) {
-		this.universidade = Universidade.get(iduniversidade);
+		this.universidade = new Universidade();
+		this.universidade.setIduniversidade(Integer.parseInt(iduniversidade));
+		new DBLoad().execute(this.universidade);
 	}
 	
 	public Universidade getUniversidade() {

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.sinau.patterns.DBLoad;
+
 @XmlRootElement
 public class ProfessorDisciplinaPK implements Serializable {
 	private Disciplina disciplina;
@@ -12,12 +14,16 @@ public class ProfessorDisciplinaPK implements Serializable {
 	
 	@XmlElement(name = "iddisciplina")
 	public void setIddisciplina (String id) {
-		this.disciplina = Disciplina.get(id);
+		this.disciplina = new Disciplina();
+		this.disciplina.setIddisciplina(id);
+		new DBLoad().execute(this.disciplina);
 	}
 	
 	@XmlElement(name = "idusuario")
 	public void setIdusuario (String id) {
-		this.usuario = Usuario.get(id);
+		this.usuario = new Usuario();
+		this.usuario.setIdusuario(Integer.parseInt(id));
+		new DBLoad().execute(this.usuario);
 	}
 	
 	public Disciplina getDisciplina() {

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.sinau.config.Config;
+import org.sinau.patterns.DBLoad;
 
 import com.sun.jersey.api.client.GenericType;
 
@@ -29,7 +30,9 @@ public class Disciplina implements Serializable {
 	
 	@XmlElement(name = "cursoIdcurso")
 	public void setIdcurso(String id) {
-		this.curso = Curso.get(id);
+		this.curso = new Curso();
+		this.curso.setIdcurso(id);
+		new DBLoad().execute(this.curso);
 	}
 	
 	public Integer getCargaHoraria() {

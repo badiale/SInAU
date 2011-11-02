@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.Session;
 import org.sinau.config.Config;
 import org.sinau.db.DBManager;
+import org.sinau.patterns.DBLoad;
 
 import com.sun.jersey.api.client.GenericType;
 
@@ -22,7 +23,7 @@ public class Professor implements Serializable {
 	@Id
 	private Integer id;
 	private Boolean coordenador;
-	//private Departamento departamento;
+	private Departamento departamento;
 	
 	@OneToOne
 	@JoinColumn(name = "usuarioid")
@@ -32,7 +33,9 @@ public class Professor implements Serializable {
 	
 	@XmlElement(name = "iddepartamento")
 	public void setIddepartamento (String id) {
-//		this.departamento = Departamento.get(id);
+		this.departamento = new Departamento();
+		this.departamento.setIddepartamento(id);
+		new DBLoad().execute(this.departamento);
 	}
 	
 	@XmlElement(name = "idusuario")
@@ -46,7 +49,7 @@ public class Professor implements Serializable {
 	}
 
 	public Departamento getDepartamento() {
-//		return departamento;
+		return departamento;
 	}
 
 	public Usuario getUsuario() {
@@ -58,7 +61,7 @@ public class Professor implements Serializable {
 	}
 
 	public void setDepartamento(Departamento departamento) {
-//		this.departamento = departamento;
+		this.departamento = departamento;
 	}
 
 	public void setUsuario(Usuario usuario) {
