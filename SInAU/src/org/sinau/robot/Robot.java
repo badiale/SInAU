@@ -3,9 +3,8 @@ package org.sinau.robot;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.sinau.beans.Administrador;
-import org.sinau.beans.Professor;
-import org.sinau.beans.Usuario;
+import org.sinau.beans.Curso;
+import org.sinau.beans.Departamento;
 import org.sinau.db.DBManager;
 import org.sinau.patterns.DBCommand;
 import org.sinau.patterns.DBSave;
@@ -19,7 +18,12 @@ public class Robot {
 		String[] lista = {
 				"usuarios",
 				"administradores",
-				"professores"
+				"alunos",
+				"universidades",
+				"departamentos",
+				"professores",
+				"cursos",
+				"disciplinas"
 		};
 		
 		Session session = DBManager.getSession();
@@ -27,12 +31,17 @@ public class Robot {
 		
 		for (String item : lista) {
 			System.out.print("Inserindo " + item + "...");
+			@SuppressWarnings("rawtypes")
 			List webservice = service.create(item);
 			for (Object o : webservice)
 				comm.execute(o);
 			
 			System.out.println(" pronto.");
 		}
+		
+		Curso c = Curso.load(1);
+		System.out.println(c);
+		System.out.println(c.getDisciplinas());
 		
 		session.getTransaction().commit();
 	}

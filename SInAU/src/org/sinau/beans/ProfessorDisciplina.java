@@ -1,16 +1,15 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.sinau.config.Config;
-
-import com.sun.jersey.api.client.GenericType;
-
+@Entity
 @XmlRootElement
 public class ProfessorDisciplina implements Serializable {
+	@Id
 	private ProfessorDisciplinaPK professorDisciplinaPK;
 	
 	public ProfessorDisciplinaPK getProfessorDisciplinaPK() {

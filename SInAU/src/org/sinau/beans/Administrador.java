@@ -1,23 +1,16 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.Session;
-import org.sinau.config.Config;
 import org.sinau.db.DBManager;
-
-import com.sun.jersey.api.client.GenericType;
 
 @Entity
 @XmlRootElement(name = "admin")
@@ -66,10 +59,5 @@ public class Administrador implements Serializable {
 	public static Administrador load(Integer id) {
 		Session session = DBManager.getSession();
 		return (Administrador) session.load(Administrador.class, id);
-	}
-	
-	public void save() {
-		Session session = DBManager.getSession();
-		session.saveOrUpdate(this);
 	}
 }

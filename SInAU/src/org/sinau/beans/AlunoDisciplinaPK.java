@@ -24,7 +24,7 @@ public class AlunoDisciplinaPK implements Serializable {
 	@XmlElement(name = "iddisciplina")
 	public void setIddisciplina (String id) {
 		disciplina = new Disciplina();
-		disciplina.setIddisciplina(id);
+		disciplina.setIddisciplina(Integer.parseInt(id));
 		new DBLoad().execute(disciplina);
 	}
 	

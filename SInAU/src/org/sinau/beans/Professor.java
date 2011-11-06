@@ -1,47 +1,48 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.Session;
-import org.sinau.config.Config;
 import org.sinau.db.DBManager;
-import org.sinau.patterns.DBLoad;
-
-import com.sun.jersey.api.client.GenericType;
 
 @Entity
 @XmlRootElement
 public class Professor implements Serializable {
 	@Id
 	private Integer id;
+	
 	private Boolean coordenador;
-	private Departamento departamento;
 	
 	@OneToOne
 	@JoinColumn(name = "usuarioid")
 	private Usuario usuario;
 	
+	@ManyToOne
+	@JoinColumn(name = "departamentoid", insertable=false, updatable=false)
+	@XmlTransient
+	private Departamento departamento;
+	
 	public Professor() {}
 	
 	@XmlElement(name = "iddepartamento")
 	public void setIddepartamento (String id) {
-		this.departamento = new Departamento();
-		this.departamento.setIddepartamento(id);
-		new DBLoad().execute(this.departamento);
+		this.departamento = Departamento.load(Integer.parseInt(id));
+		this.departamento.getProfessores().add(this);
 	}
 	
 	@XmlElement(name = "idusuario")
 	public void setIdusuario (String id) {
 		this.id = Integer.parseInt(id);
-		this.usuario = Usuario.load(this.id);
+		this.usuario = Usuario.load(Integer.parseInt(id));
 	}
 	
 	public Boolean getCoordenador() {
@@ -56,6 +57,14 @@ public class Professor implements Serializable {
 		return usuario;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public void setCoordenador(Boolean coordenador) {
 		this.coordenador = coordenador;
 	}
@@ -67,20 +76,14 @@ public class Professor implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Professor [coordenador=" + coordenador + ", departamento="
-				+ /*departamento +", usuario=" + usuario + */ "]";
+		return "Professor [id=" + id + ", coordenador=" + coordenador + "]";
 	}
 	
-	public static Professor load(Integer id) {
+	public static Professor load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Professor) session.load(Professor.class, id);
-	}
-	
-	public void save() {
-		Session session = DBManager.getSession();
-		session.saveOrUpdate(this);
 	}
 }

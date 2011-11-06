@@ -1,14 +1,18 @@
 package org.sinau.patterns;
 
-import java.io.FileInputStream;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
-import java.util.Vector;
 
-import org.sinau.beans.*;
+import org.sinau.beans.Administrador;
+import org.sinau.beans.Aluno;
+import org.sinau.beans.AlunoDisciplina;
+import org.sinau.beans.Curso;
+import org.sinau.beans.Departamento;
+import org.sinau.beans.Disciplina;
+import org.sinau.beans.Professor;
+import org.sinau.beans.ProfessorDisciplina;
+import org.sinau.beans.Universidade;
+import org.sinau.beans.Usuario;
 import org.sinau.config.Config;
 
 import com.sun.jersey.api.client.GenericType;
@@ -20,35 +24,15 @@ import com.sun.jersey.api.client.GenericType;
  * <br>Como o servidor não permite pegar um objeto isolado, não é possível pegar um único objeto. Porém é possível pegar uma lista com todos eles.
  * */
 public class ServiceFactory {
-	private static final int List = 0;
-	private Properties classes;
+	@SuppressWarnings("rawtypes")
+	HashMap<String, GenericType> classes;
 	
 	/**
 	 * Instancia uma nova fábrica na memória.
-	 * @param file Arquivo de propriedades com as chaves e classes.
 	 * */
-	public ServiceFactory(String file) throws Exception {
-		classes = new Properties();
-		classes.load(new FileInputStream(file));
-	}
-	
-	/**
-	 * Instancia uma nova fábrica na memória, utilizando o arquivo padrão <code>services.properties</code>.
-	 * */
-	public ServiceFactory() throws Exception {
-		this("configs/services.properties");
-	}
-	
-	/**
-	 * Cria a lista, utilizando a string <code>servico</code> para diferenciar a lista.
-	 * <br>Por exemplo:
-	 * <p><code>ServiceFactory sf = new ServiceFactory();
-	 * <br>List lista = sf.create("usuarios");</code>
-	 * </p>Irá retornar uma lista de todos os usuários no servidor de WebService.
-	 * @param servico String que diferencia a lista de retorno.
-	 * */
-	public List create(String servico) throws Exception {
-		HashMap<String, GenericType> classes = new HashMap<String, GenericType>();
+	@SuppressWarnings("rawtypes")
+	public ServiceFactory(){
+		classes = new HashMap<String, GenericType>();
 		
 		classes.put("usuarios", new GenericType<List<Usuario>>() {});
 		classes.put("alunos", new GenericType<List<Aluno>>() {});
@@ -60,8 +44,20 @@ public class ServiceFactory {
 		classes.put("disciplinas", new GenericType<List<Disciplina>>() {});
 		classes.put("profdisciplinas", new GenericType<List<ProfessorDisciplina>>() {});
 		classes.put("universidades", new GenericType<List<Universidade>>() {});
-		
-		return Config.getInstance().getService(servico).get(classes.get(servico));
+	}
+	
+	/**
+	 * Cria a lista, utilizando a string <code>servico</code> para diferenciar a lista.
+	 * <br>Por exemplo:
+	 * <p><code>ServiceFactory sf = new ServiceFactory();
+	 * <br>List lista = sf.create("usuarios");</code>
+	 * </p>Irá retornar uma lista de todos os usuários no servidor de WebService.
+	 * @param servico String que diferencia a lista de retorno.
+	 * */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List create(String servico) throws Exception {
+		List list = Config.getInstance().getService(servico).get(classes.get(servico));
+		return list;
 	}
 	
 	/**
@@ -76,6 +72,7 @@ public class ServiceFactory {
 	 * */
 	public static void main(String[] args) throws Exception {
 		ServiceFactory sf = new ServiceFactory();
+		@SuppressWarnings("rawtypes")
 		List lista = sf.create("usuarios");
 		for (Object item : lista) {
 			System.out.println(item);

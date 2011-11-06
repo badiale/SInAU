@@ -3,13 +3,14 @@
  * */
 package org.sinau.learning;
 
-import org.sinau.config.Config;
-
 import java.io.Serializable;
 import java.util.List;
-import com.sun.jersey.api.client.GenericType;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.sinau.config.Config;
+
+import com.sun.jersey.api.client.GenericType;
 
 /** 
  * Este é um exemplo de como uma classe se comunica com um webservice.

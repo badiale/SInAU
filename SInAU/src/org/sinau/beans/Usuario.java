@@ -1,22 +1,15 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.ws.rs.GET;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.hibernate.Session;
-import org.sinau.config.Config;
 import org.sinau.db.DBManager;
-
-import com.sun.jersey.api.client.GenericType;
 
 @Entity
 @XmlRootElement
@@ -34,27 +27,31 @@ public class Usuario implements Serializable {
 	
 	@OneToOne(mappedBy = "usuario")
 	@XmlTransient
-	public Administrador admin;
+	private Administrador admin;
 	
 	@OneToOne(mappedBy = "usuario")
 	@XmlTransient
-	public Professor professor;
+	private Professor professor;
+	
+	@OneToOne(mappedBy = "usuario")
+	@XmlTransient
+	private Aluno aluno;
 	
 	/**
 	 * Pojo.
 	 * */
 	public Usuario() {}
-	
+
+	public Integer getIdusuario() {
+		return idusuario;
+	}
+
 	public Boolean getAtivo() {
 		return ativo;
 	}
 
 	public String getEmail() {
 		return email;
-	}
-
-	public Integer getIdusuario() {
-		return idusuario;
 	}
 
 	public String getNome() {
@@ -77,12 +74,20 @@ public class Usuario implements Serializable {
 		return tipo;
 	}
 
+	public Administrador getAdmin() {
+		return admin;
+	}
+
 	public Professor getProfessor() {
 		return professor;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setIdusuario(Integer idusuario) {
+		this.idusuario = idusuario;
 	}
 
 	public void setAtivo(Boolean ativo) {
@@ -91,10 +96,6 @@ public class Usuario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public void setIdusuario(Integer idusuario) {
-		this.idusuario = idusuario;
 	}
 
 	public void setNome(String nome) {
@@ -117,30 +118,28 @@ public class Usuario implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Administrador getAdmin() {
-		return admin;
-	}
-
 	public void setAdmin(Administrador admin) {
 		this.admin = admin;
 	}
 
-	public static Usuario load(Integer id) {
-		Session session = DBManager.getSession();
-		return (Usuario) session.load(Usuario.class, id);
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
-	
-	public void save() {
-		Session session = DBManager.getSession();
-		session.saveOrUpdate(this);
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Usuario [idusuario=" + idusuario + ", ativo=" + ativo
 				+ ", email=" + email + ", nome=" + nome + ", nomeUsuario="
 				+ nomeUsuario + ", senha=" + senha + ", telefone=" + telefone
-				+ ", tipo=" + tipo + ", admin=" + admin + ", professor="
-				+ professor + "]";
+				+ ", tipo=" + tipo + "]";
+	}
+	
+	public static Usuario load (Integer id) {
+		Session session = DBManager.getSession();
+		return (Usuario) session.load(Usuario.class, id);
 	}
 }

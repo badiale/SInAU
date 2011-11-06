@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Conexion manager.<br>
@@ -33,7 +33,7 @@ public class DBManager {
 		try {
 			// Create the SessionFactory from hibernate.cfg.xml
 			File config = new File("configs/hibernate.cfg.xml");
-			sessionFactory = new AnnotationConfiguration().configure(config).buildSessionFactory();
+			sessionFactory = new Configuration().configure(config).buildSessionFactory();
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
 			System.err.println("Initial SessionFactory creation failed." + ex);

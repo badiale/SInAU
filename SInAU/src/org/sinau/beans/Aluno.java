@@ -2,30 +2,45 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.sinau.config.Config;
+import org.hibernate.Session;
+import org.sinau.db.DBManager;
 
-import com.sun.jersey.api.client.GenericType;
-
+@Entity
 @XmlRootElement
 public class Aluno implements Serializable {
+	@Id
+	private Integer idaluno;
+	
 	private String matriculaNusp;
 	private Date anoInicio;
 	private Boolean bolsista;
 	private String endereco;
-	private Usuario usuario;
 	private Integer semestre;
+	
+	@OneToOne
+	@JoinColumn(name = "usuarioid")
+	private Usuario usuario;
 	
 	public Aluno () {}
 	
 	@XmlElement(name = "idusuario")
 	public void setIdusuario (String id) {
+		this.idaluno = Integer.parseInt(id);
 		this.usuario = Usuario.load(Integer.parseInt(id));
+	}
+	
+	@XmlID
+	public String getMatriculaNusp() {
+		return matriculaNusp;
 	}
 	
 	public Date getAnoInicio() {
@@ -44,13 +59,16 @@ public class Aluno implements Serializable {
 		return this.usuario;
 	}
 
-	@XmlID
-	public String getMatriculaNusp() {
-		return matriculaNusp;
-	}
-
 	public Integer getSemestre() {
 		return semestre;
+	}
+
+	public Integer getIdaluno() {
+		return idaluno;
+	}
+
+	public void setIdaluno(Integer idaluno) {
+		this.idaluno = idaluno;
 	}
 
 	public void setAnoInicio(Date anoInicio) {
@@ -79,9 +97,13 @@ public class Aluno implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Alunos [anoInicio=" + anoInicio + ", bolsista=" + bolsista
-				+ ", endereco=" + endereco + ", usuario=" + usuario
-				+ ", matriculaNusp=" + matriculaNusp + ", semestre=" + semestre
-				+ "]";
+		return "Aluno [idaluno=" + idaluno + ", matriculaNusp=" + matriculaNusp
+				+ ", anoInicio=" + anoInicio + ", bolsista=" + bolsista
+				+ ", endereco=" + endereco + ", semestre=" + semestre + "]";
+	}
+	
+	public static Aluno load (Integer id) {
+		Session session = DBManager.getSession();
+		return (Aluno) session.load(Aluno.class, id);
 	}
 }
