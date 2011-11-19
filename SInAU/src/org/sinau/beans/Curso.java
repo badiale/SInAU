@@ -19,6 +19,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement
 public class Curso implements Serializable {
+	private static final long serialVersionUID = -1305872735392633340L;
+
 	@Id
 	private Integer idcurso;
 	

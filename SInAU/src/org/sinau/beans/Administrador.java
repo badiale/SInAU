@@ -15,6 +15,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement(name = "admin")
 public class Administrador implements Serializable {
+	private static final long serialVersionUID = -7073281227537749396L;
+	
 	@Id
 	private Integer id;
 	private String cargo;

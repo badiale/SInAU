@@ -14,6 +14,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement
 public class Usuario implements Serializable {
+	private static final long serialVersionUID = 6194985310779971753L;
+
 	@Id
 	private Integer idusuario;
 	

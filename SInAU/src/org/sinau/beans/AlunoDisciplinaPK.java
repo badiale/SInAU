@@ -2,51 +2,67 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.sinau.patterns.DBLoad;
-
+@Embeddable
 @XmlRootElement
 public class AlunoDisciplinaPK implements Serializable {
-	private Disciplina disciplina;
-	private Usuario usuario;
+	private static final long serialVersionUID = 1018854177325264055L;
 	
-	public AlunoDisciplinaPK() {}
-
-	@XmlElement(name = "idusuario")
-	public void setIdusuario (String id) {
-		usuario = new Usuario();
-		usuario.setIdusuario(Integer.parseInt(id));
-		new DBLoad().execute(usuario);
-	}
+	private Integer disciplina;
+	private Integer usuario;
 	
 	@XmlElement(name = "iddisciplina")
 	public void setIddisciplina (String id) {
-		disciplina = new Disciplina();
-		disciplina.setIddisciplina(Integer.parseInt(id));
-		new DBLoad().execute(disciplina);
+		this.disciplina = Integer.parseInt(id);
+	}
+	
+	@XmlElement(name = "idusuario")
+	public void setIdusuario (String id) {
+		this.usuario = Integer.parseInt(id);
 	}
 	
 	public Disciplina getDisciplina() {
-		return disciplina;
+		return Disciplina.load(disciplina);
 	}
-
 	public Usuario getUsuario() {
-		return usuario;
+		return Usuario.load(usuario);
 	}
-
 	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
+		this.disciplina = disciplina.getIddisciplina();
 	}
-
 	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+		this.usuario = usuario.getIdusuario();
 	}
-
 	@Override
 	public String toString() {
 		return "AlunoDisciplinaPK [disciplina=" + disciplina + ", usuario="
 				+ usuario + "]";
+	}
+	
+	@Override
+	public boolean equals (Object o) {
+		if (o == null) return false;
+		if (!(o instanceof AlunoDisciplinaPK)) return false;
+		
+		AlunoDisciplinaPK outro = (AlunoDisciplinaPK) o;
+		if (outro.usuario == null) return false;
+		if (outro.disciplina == null) return false;
+		if (this.usuario == null) return false;
+		if (this.disciplina == null) return false;
+		
+		if (usuario.equals(outro.usuario) && disciplina.equals(outro.disciplina)) return true;
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode () {
+		int ret = 0;
+		ret += usuario;
+		ret += disciplina;
+		return ret;
 	}
 }

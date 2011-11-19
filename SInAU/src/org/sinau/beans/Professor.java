@@ -17,6 +17,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement
 public class Professor implements Serializable {
+	private static final long serialVersionUID = -6500169169651809300L;
+
 	@Id
 	private Integer id;
 	

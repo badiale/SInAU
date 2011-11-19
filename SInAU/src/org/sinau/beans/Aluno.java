@@ -17,6 +17,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement
 public class Aluno implements Serializable {
+	private static final long serialVersionUID = 6096842038230881759L;
+
 	@Id
 	private Integer idaluno;
 	

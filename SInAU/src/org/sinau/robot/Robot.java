@@ -3,8 +3,7 @@ package org.sinau.robot;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.sinau.beans.Curso;
-import org.sinau.beans.Departamento;
+import org.sinau.beans.Usuario;
 import org.sinau.db.DBManager;
 import org.sinau.patterns.DBCommand;
 import org.sinau.patterns.DBSave;
@@ -23,11 +22,25 @@ public class Robot {
 				"departamentos",
 				"professores",
 				"cursos",
-				"disciplinas"
+				"disciplinas",
+				"profdisciplinas",
+				"alunodisciplina"
 		};
 		
 		Session session = DBManager.getSession();
 		session.beginTransaction();
+		
+		Usuario u = null;
+		
+		// esse usuario nao existe
+		u = new Usuario();
+		u.setIdusuario(1);
+		comm.execute(u);
+		
+		// esse usuario nao existe
+		u = new Usuario();
+		u.setIdusuario(28182);
+		comm.execute(u);
 		
 		for (String item : lista) {
 			System.out.print("Inserindo " + item + "...");
@@ -39,9 +52,9 @@ public class Robot {
 			System.out.println(" pronto.");
 		}
 		
-		Curso c = Curso.load(1);
+		/*Curso c = Curso.load(1);
 		System.out.println(c);
-		System.out.println(c.getDisciplinas());
+		System.out.println(c.getDisciplinas());*/
 		
 		session.getTransaction().commit();
 	}

@@ -2,14 +2,16 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 public class ProfessorDisciplina implements Serializable {
-	@Id
+	private static final long serialVersionUID = 7263041574525686324L;
+	
+	@EmbeddedId
 	private ProfessorDisciplinaPK professorDisciplinaPK;
 	
 	public ProfessorDisciplinaPK getProfessorDisciplinaPK() {

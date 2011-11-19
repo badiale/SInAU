@@ -38,6 +38,8 @@
 		<mapping class="org.sinau.beans.Universidade"/>
 		<mapping class="org.sinau.beans.Curso"/>
 		<mapping class="org.sinau.beans.Disciplina"/>
+		<mapping class="org.sinau.beans.AlunoDisciplina"/>
+		<mapping class="org.sinau.beans.ProfessorDisciplina"/>
 		
     </session-factory>
 

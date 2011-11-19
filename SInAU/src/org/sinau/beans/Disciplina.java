@@ -17,6 +17,8 @@ import org.sinau.db.DBManager;
 @Entity
 @XmlRootElement
 public class Disciplina implements Serializable {
+	private static final long serialVersionUID = -2315882260788173517L;
+
 	@Id
 	private Integer iddisciplina;
 	
