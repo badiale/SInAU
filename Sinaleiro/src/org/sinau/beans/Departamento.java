@@ -2,6 +2,7 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -96,12 +97,25 @@ public class Departamento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Departamento [iddepartamento=" + iddepartamento + ", nome="
-				+ nome + ", telefone=" + telefone + "]";
+		String ret = "";
+		ret += "\"" + getIddepartamento() + "\"" + " : ";
+		ret += "{";
+			ret += "\"Nome\" : \"" + getNome() + "\",";
+			ret += "\"Telefone\" : \"" + getTelefone() + "\"";
+		ret += "}";
+		return ret;
 	}
 
 	public static Departamento load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Departamento) session.load(Departamento.class, id);
+	}
+        
+	@SuppressWarnings("unchecked")
+	public static List<Departamento> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Departamento";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }

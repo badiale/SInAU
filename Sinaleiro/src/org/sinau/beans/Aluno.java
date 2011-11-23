@@ -2,6 +2,7 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -99,13 +100,45 @@ public class Aluno implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Aluno [idaluno=" + idaluno + ", matriculaNusp=" + matriculaNusp
-				+ ", anoInicio=" + anoInicio + ", bolsista=" + bolsista
-				+ ", endereco=" + endereco + ", semestre=" + semestre + "]";
+		return " \"" + idaluno + "\" : { " +
+					usuario.data() + ", " +
+					"\"NUSP\" : \"" + matriculaNusp + "\"," +
+					"\"AnoInicio\" : \"" + anoInicio + "\"," +
+					"\"Bolsista\" : \"" + bolsista + "\"," +
+					"\"Endereco\" : \"" + endereco + "\"," +
+					"\"Semestre\" : \"" + semestre + "\"" +
+				"}";
 	}
 	
 	public static Aluno load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Aluno) session.load(Aluno.class, id);
+	}
+        
+	@SuppressWarnings("unchecked")
+	public static List<Aluno> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Aluno";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Aluno> findByNameLike (String name) {
+		Session session = DBManager.getSession();
+		String hql = "from Aluno a where lower(a.usuario.nome) like lower('%" + name + "%')";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
+	}
+	
+	public static void main (String[] args) {
+		Session session = DBManager.getSession();
+        session.beginTransaction();
+        
+        for (Object obj : Aluno.findByNameLike("gra")) {
+        	System.out.println(obj);
+        }
+        
+        session.getTransaction().commit();
 	}
 }

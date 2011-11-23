@@ -1,6 +1,7 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -55,11 +56,19 @@ public class Administrador implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Administrador [cargo=" + cargo + ", usuario=" + usuario + "]";
+		return "\"" + id + "\" : { " + usuario.data() + ", \"Cargo\" : \"" + cargo + "\" }";
 	}
 
 	public static Administrador load(Integer id) {
 		Session session = DBManager.getSession();
 		return (Administrador) session.load(Administrador.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Administrador> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Administrador";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }

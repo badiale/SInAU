@@ -1,6 +1,7 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -132,16 +133,31 @@ public class Usuario implements Serializable {
 		this.aluno = aluno;
 	}
 
+	public String data() {
+		return    "\"Nome\"     : \"" + nome        + "\","
+				+ "\"Ativo\"    : \"" + ativo       + "\", "
+				+ "\"Email\"    : \"" + email       + "\","
+				+ "\"Login\"    : \"" + nomeUsuario + "\","
+				+ "\"Senha\"    : \"" + senha       + "\","
+				+ "\"Telefone\" : \"" + telefone    + "\","
+				+ "\"Tipo\"     : \"" + tipo        + "\"";
+	}
+	
 	@Override
 	public String toString() {
-		return "Usuario [idusuario=" + idusuario + ", ativo=" + ativo
-				+ ", email=" + email + ", nome=" + nome + ", nomeUsuario="
-				+ nomeUsuario + ", senha=" + senha + ", telefone=" + telefone
-				+ ", tipo=" + tipo + "]";
+		return "\""+ idusuario +"\" : { " + data() + " }";
 	}
 	
 	public static Usuario load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Usuario) session.load(Usuario.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Usuario> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Usuario";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }

@@ -2,6 +2,7 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -93,12 +94,23 @@ public class Curso implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Curso [idcurso=" + idcurso + ", area=" + area + ", nome="
-				+ nome + ", vagas=" + vagas + "]";
+		return " \"" + idcurso + "\" : { " + 
+					"\"Nome\"  : \"" + nome  + "\"," +
+					"\"Area\"  : \"" + area  + "\"," + 
+					"\"Vagas\" : \"" + vagas + "\""  +
+				"}";
 	}
 	
 	public static Curso load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Curso) session.load(Curso.class, id);
+	}
+        
+	@SuppressWarnings("unchecked")
+	public static List<Curso> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Curso";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }

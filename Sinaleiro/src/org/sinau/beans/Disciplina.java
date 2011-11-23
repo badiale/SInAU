@@ -2,6 +2,7 @@ package org.sinau.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -97,13 +98,25 @@ public class Disciplina implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Disciplina [iddisciplina=" + iddisciplina + ", cargaHoraria="
-				+ cargaHoraria + ", descricao=" + descricao + ", horario="
-				+ horario + ", nome=" + nome + ", sala=" + sala + "]";
+		return " \"" + iddisciplina + "\" : {" +
+					"\"Nome\"         : \"" + nome + "\"," +
+					"\"CargaHoraria\" : \"" + cargaHoraria + "\"," +
+					"\"Descricao\"    : \"" + descricao.replace('\n', ' ') + "\"," +
+					"\"Horario\"      : \"" + horario + "\"," +
+					"\"Sala\"         : \"" + sala + "\"" + 
+				"}";
 	}
 	
 	public static Disciplina load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Disciplina) session.load(Disciplina.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Disciplina> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Disciplina";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }

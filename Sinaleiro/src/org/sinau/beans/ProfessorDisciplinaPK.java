@@ -63,4 +63,5 @@ public class ProfessorDisciplinaPK implements Serializable {
 		ret += disciplina;
 		return ret;
 	}
+
 }

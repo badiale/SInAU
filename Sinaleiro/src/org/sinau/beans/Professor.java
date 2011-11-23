@@ -1,6 +1,7 @@
 package org.sinau.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -81,11 +82,19 @@ public class Professor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Professor [id=" + id + ", coordenador=" + coordenador + "]";
+		return "\"" + id + "\": { "+ usuario.data() +", \"Coordenador\" : \"" + coordenador + "\"}";
 	}
 	
 	public static Professor load (Integer id) {
 		Session session = DBManager.getSession();
 		return (Professor) session.load(Professor.class, id);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Professor> findAll() {
+		Session session = DBManager.getSession();
+		String hql = "from Professor";
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
 	}
 }
