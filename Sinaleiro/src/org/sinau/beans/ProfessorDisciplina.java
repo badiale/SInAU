@@ -48,7 +48,7 @@ public class ProfessorDisciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Disciplina> findDisciplinaByProfessor(int profId) {
 		Session session = DBManager.getSession();
-		String hql = "Select d from Disciplina d, ProfessorDisciplina pd where d.iddisciplina = pd.professorDisciplinaPK.disciplina AND pd.professorDisciplinaPK.usuario = " + profId;
+		String hql = "Select d from Disciplina d, ProfessorDisciplina pd where d.iddisciplina = pd.professorDisciplinaPK.disciplina AND pd.professorDisciplinaPK.usuario = " + profId + " order by d.iddisciplina";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
@@ -56,7 +56,7 @@ public class ProfessorDisciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Professor> findProfessorByDisciplina(int id) {
 		Session session = DBManager.getSession();
-		String hql = "Select p from Professor p, ProfessorDisciplina pd where p.id = pd.professorDisciplinaPK.usuario AND pd.professorDisciplinaPK.disciplina = " + id;
+		String hql = "Select p from Professor p, ProfessorDisciplina pd where p.id = pd.professorDisciplinaPK.usuario AND pd.professorDisciplinaPK.disciplina = " + id + " order by p.id";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

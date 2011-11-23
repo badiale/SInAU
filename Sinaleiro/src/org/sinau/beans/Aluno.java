@@ -118,7 +118,7 @@ public class Aluno implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Aluno> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Aluno";
+		String hql = "from Aluno order by idaluno";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
@@ -126,7 +126,7 @@ public class Aluno implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Aluno> findByNameLike (String name) {
 		Session session = DBManager.getSession();
-		String hql = "from Aluno a where lower(a.usuario.nome) like lower('%" + name + "%')";
+		String hql = "from Aluno a where lower(a.usuario.nome) like lower('%" + name + "%') order by idaluno";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

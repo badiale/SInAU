@@ -156,7 +156,7 @@ public class Usuario implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Usuario> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Usuario";
+		String hql = "from Usuario order by idusuario";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

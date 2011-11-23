@@ -67,7 +67,7 @@ public class Administrador implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Administrador> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Administrador";
+		String hql = "from Administrador order by id";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

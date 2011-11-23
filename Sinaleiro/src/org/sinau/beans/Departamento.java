@@ -114,14 +114,14 @@ public class Departamento implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Departamento> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Departamento";
+		String hql = "from Departamento order by iddepartamento";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
         
         public static List<Departamento> findByNameLike (String name) {
 		Session session = DBManager.getSession();
-		String hql = "from Departamento a where lower(a.nome) like lower('%" + name + "%')";
+		String hql = "from Departamento a where lower(a.nome) like lower('%" + name + "%') order by iddepartamento";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

@@ -115,7 +115,7 @@ public class Disciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Disciplina> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Disciplina";
+		String hql = "from Disciplina order by iddisciplina";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

@@ -68,7 +68,7 @@ public class AlunoDisciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Disciplina> findDisciplinaByAluno(int id) {
 		Session session = DBManager.getSession();
-		String hql = "Select d from Disciplina d, AlunoDisciplina ad where d.iddisciplina = ad.alunoDisciplinaPK.disciplina and ad.alunoDisciplinaPK.usuario = " + id;
+		String hql = "Select d from Disciplina d, AlunoDisciplina ad where d.iddisciplina = ad.alunoDisciplinaPK.disciplina and ad.alunoDisciplinaPK.usuario = " + id + " order by d.iddisciplina";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
@@ -76,7 +76,7 @@ public class AlunoDisciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Aluno> findAlunoByDisciplina(int id) {
 		Session session = DBManager.getSession();
-		String hql = "Select a from Aluno a, AlunoDisciplina ad where a.idaluno = ad.alunoDisciplinaPK.usuario AND ad.alunoDisciplinaPK.disciplina = " + id;
+		String hql = "Select a from Aluno a, AlunoDisciplina ad where a.idaluno = ad.alunoDisciplinaPK.usuario AND ad.alunoDisciplinaPK.disciplina = " + id + " order by a.idaluno";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
@@ -84,7 +84,7 @@ public class AlunoDisciplina implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Aluno> findAlunoBolsistaByDisciplina(int id) {
 		Session session = DBManager.getSession();
-		String hql = "Select a from Aluno a, AlunoDisciplina ad where a.bolsista = true AND a.idaluno = ad.alunoDisciplinaPK.usuario AND ad.alunoDisciplinaPK.disciplina = " + id;
+		String hql = "Select a from Aluno a, AlunoDisciplina ad where a.bolsista = true AND a.idaluno = ad.alunoDisciplinaPK.usuario AND ad.alunoDisciplinaPK.disciplina = " + id + " order by a.idaluno";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

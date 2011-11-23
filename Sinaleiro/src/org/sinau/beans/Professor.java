@@ -93,14 +93,14 @@ public class Professor implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Professor> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Professor";
+		String hql = "from Professor order by id";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
         
         public static List<Professor> findByNameLike (String name) {
 		Session session = DBManager.getSession();
-		String hql = "from Professor a where lower(a.usuario.nome) like lower('%" + name + "%')";
+		String hql = "from Professor a where lower(a.usuario.nome) like lower('%" + name + "%') order by id";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}

@@ -13,7 +13,7 @@ function microlink(destino, result) {
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			progressindicator_off();
-			$("#" + result).html("<div class=\"error\">Algum erro ocorreu<br>" + textStatus + "<br>" + errorThrown + "<br></div>");
+			// $("#" + result).html("<div class=\"error\">Algum erro ocorreu<br>" + textStatus + "<br>" + errorThrown + "<br></div>");
 		}
 	});
 }

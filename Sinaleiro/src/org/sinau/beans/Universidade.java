@@ -97,7 +97,7 @@ public class Universidade implements Serializable {
 	@SuppressWarnings("unchecked")
 	public static List<Universidade> findAll() {
 		Session session = DBManager.getSession();
-		String hql = "from Universidade";
+		String hql = "from Universidade order by iduniversidade";
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
