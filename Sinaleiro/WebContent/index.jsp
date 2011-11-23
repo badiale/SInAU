@@ -12,7 +12,7 @@
 		<script src="js/progressindicator.js"></script>
 		<script src="js/livesearch.js"></script>
 		
-		<title>Insert title here</title>
+		<title>SInAU</title>
 	</head>
 	<body>
 		<div id="title"><h1>SInAU</h1></div>
