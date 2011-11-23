@@ -5,9 +5,10 @@ function microlink(destino, result) {
 		url: destino,
 		dataType: 'json',
 		success: function (data, textStatus, jqXHR) {
-			parseJSON(data, result);
 			if (result == "result")
 				uniqueurl(destino);
+			
+			parseJSON(data, result);
 			progressindicator_off();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {

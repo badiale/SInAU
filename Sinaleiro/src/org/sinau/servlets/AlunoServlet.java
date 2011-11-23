@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.sinau.beans.Aluno;
+import org.sinau.beans.AlunoDisciplina;
 import org.sinau.beans.Departamento;
 import org.sinau.db.DBManager;
 
@@ -45,7 +47,18 @@ public class AlunoServlet extends HttpServlet {
 		
 		String ret = "{";
 		
-		colecao = Aluno.findAll();
+		String id = request.getParameter("id");
+		String query = request.getParameter("query");
+		
+		if (id != null) {
+			colecao = AlunoDisciplina.findDisciplinaByAluno(Integer.parseInt(id));
+		} else if (query != null) {
+			ret += "\"submenu\" : \"aluno?id=\",";
+			colecao = Aluno.findByNameLike(query);
+		} else {
+			ret += "\"submenu\" : \"aluno?id=\",";
+			colecao = Aluno.findAll();
+		}
 		
 		for (Object obj : colecao)
 			ret += obj.toString() + ",";

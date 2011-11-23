@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class CursoServlet extends HttpServlet {
 		response.setContentType("text/json; charset=ISO-8859-1");
 
 		String id = request.getParameter("id");
+		String query = request.getParameter("query");
 		
 		Session session = DBManager.getSession();
 		session.beginTransaction();
@@ -47,12 +49,15 @@ public class CursoServlet extends HttpServlet {
 		
 		String ret = "{";
 		
-		if (id == null) {
+		if (id != null) {
+			ret += "\"submenu\" : \"disciplina?id=\",";
+			colecao = Curso.load(Integer.parseInt(id)).getDisciplinas();
+		} else if (query != null) {
+			ret += "\"submenu\" : \"curso?id=\",";
+			colecao = Curso.findByNameLike(query);
+		} else {
 			ret += "\"submenu\" : \"curso?id=\",";
 			colecao = Curso.findAll();
-		} else {
-			Curso curso = Curso.load(Integer.parseInt(id));
-			colecao = curso.getDisciplinas();
 		}
 		
 		for (Object obj : colecao)

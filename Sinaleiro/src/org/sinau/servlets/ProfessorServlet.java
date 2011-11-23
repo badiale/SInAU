@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class ProfessorServlet extends HttpServlet {
 		response.setContentType("text/json; charset=ISO-8859-1");
 
 		String id = request.getParameter("id");
+		String query = request.getParameter("query");
 		
 		Session session = DBManager.getSession();
 		session.beginTransaction();
@@ -51,11 +53,14 @@ public class ProfessorServlet extends HttpServlet {
 		
 		String ret = "{";
 		
-		if (id == null) {
+		if (id != null) {
+			colecao = ProfessorDisciplina.findDisciplinaByProfessor(Integer.parseInt(id));
+		} else if (query != null) {
+			ret += "\"submenu\" : \"professor?id=\",";
+			colecao = Professor.findByNameLike(query);
+		} else {
 			ret += "\"submenu\" : \"professor?id=\",";
 			colecao = Professor.findAll();
-		} else {
-			colecao = ProfessorDisciplina.findDisciplinaByProfessor(Integer.parseInt(id));
 		}
 		
 		for (Object obj : colecao)

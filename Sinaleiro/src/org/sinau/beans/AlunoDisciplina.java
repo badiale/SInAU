@@ -81,6 +81,14 @@ public class AlunoDisciplina implements Serializable {
 		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static List<Aluno> findAlunoBolsistaByDisciplina(int id) {
+		Session session = DBManager.getSession();
+		String hql = "Select a from Aluno a, AlunoDisciplina ad where a.bolsista = true AND a.idaluno = ad.alunoDisciplinaPK.usuario AND ad.alunoDisciplinaPK.disciplina = " + id;
+		org.hibernate.Query query = session.createQuery(hql);
+		return query.list();
+	}
+	
 	public static void main (String[] args) {
 		Session session = DBManager.getSession();
 		session.beginTransaction();
@@ -91,6 +99,10 @@ public class AlunoDisciplina implements Serializable {
 		
 		System.out.println("byDisciplina");
 		for (Object obj : AlunoDisciplina.findAlunoByDisciplina(1))
+			System.out.println(obj);
+		
+		System.out.println("BolsistabyDisciplina");
+		for (Object obj : AlunoDisciplina.findAlunoBolsistaByDisciplina(1))
 			System.out.println(obj);
 		
 		session.getTransaction().commit();

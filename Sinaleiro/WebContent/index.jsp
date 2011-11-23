@@ -10,6 +10,7 @@
 		<script src="js/microlink.js"></script>
 		<script src="js/uniqueurl.js"></script>
 		<script src="js/progressindicator.js"></script>
+		<script src="js/livesearch.js"></script>
 		
 		<title>Insert title here</title>
 	</head>
@@ -27,7 +28,8 @@
 		<div id="content">
 			<div id="search">
 				<form onSubmit="return false;">
-					Buscar: <input type="text" name="search"> <input type="submit" value="Buscar">
+					Buscar: <input type="text" id="search_input" name="search" onfocus="livesearch_start(this)" onblur="livesearch_stop()">
+					<input type="submit" value="Buscar" onclick="livesearch(search.value)">
 				</form>
 			</div>
 			

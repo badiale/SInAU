@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 
@@ -14,37 +13,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
-import org.sinau.beans.Aluno;
+import org.sinau.beans.AlunoDisciplina;
+import org.sinau.beans.Curso;
 import org.sinau.beans.Departamento;
+import org.sinau.beans.Disciplina;
 import org.sinau.beans.Professor;
+import org.sinau.beans.ProfessorDisciplina;
+import org.sinau.beans.ProfessorDisciplinaPK;
 import org.sinau.db.DBManager;
 
 /**
  * Servlet implementation class Teste
  */
 
-@WebServlet("/departamento")
-public class DepartamentoServlet extends HttpServlet {
+@WebServlet("/disciplina")
+public class DisciplinaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DisciplinaServlet() {
+        super();
+    }
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public DepartamentoServlet() {
-		super();
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		PrintStream out = new PrintStream(response.getOutputStream());
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	PrintStream out = new PrintStream(response.getOutputStream());
 		response.setContentType("text/json; charset=ISO-8859-1");
 
-		String depId = request.getParameter("depId");
-		String query = request.getParameter("query");
+		String id = request.getParameter("id");
 		
 		Session session = DBManager.getSession();
 		session.beginTransaction();
@@ -53,15 +53,11 @@ public class DepartamentoServlet extends HttpServlet {
 		
 		String ret = "{";
 		
-		if (depId != null) {
-			Departamento dep = Departamento.load(Integer.parseInt(depId));
-			colecao = dep.getProfessores();
-		} else if (query != null) {
-			ret += "\"submenu\" : \"departamento?depId=\",";
-			colecao = Departamento.findByNameLike(query);
+		if (id == null) {
+			ret += "\"submenu\" : \"disciplina?id=\",";
+			colecao = Disciplina.findAll();
 		} else {
-			ret += "\"submenu\" : \"departamento?depId=\",";
-			colecao = Departamento.findAll();
+			colecao = AlunoDisciplina.findAlunoBolsistaByDisciplina(Integer.parseInt(id));
 		}
 		
 		for (Object obj : colecao)
@@ -77,10 +73,9 @@ public class DepartamentoServlet extends HttpServlet {
 		out.close();
 
 		session.getTransaction().commit();
-	}
+    }
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
