@@ -113,8 +113,9 @@ public class Curso implements Serializable {
 		org.hibernate.Query query = session.createQuery(hql);
 		return query.list();
 	}
-        
-        public static List<Curso> findByNameLike (String name) {
+	
+	@SuppressWarnings("unchecked")
+	public static List<Curso> findByNameLike (String name) {
 		Session session = DBManager.getSession();
 		String hql = "from Curso a where lower(a.nome) like lower('%" + name + "%')  order by idcurso";
 		org.hibernate.Query query = session.createQuery(hql);

@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.sinau.beans.Aluno;
 import org.sinau.beans.AlunoDisciplina;
-import org.sinau.beans.Departamento;
 import org.sinau.db.DBManager;
 
 /**

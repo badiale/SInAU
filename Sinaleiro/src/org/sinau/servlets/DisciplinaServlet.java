@@ -3,10 +3,8 @@ package org.sinau.servlets;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.List;
 
 import javax.servlet.ServletException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.sinau.beans.AlunoDisciplina;
-import org.sinau.beans.Curso;
-import org.sinau.beans.Departamento;
 import org.sinau.beans.Disciplina;
-import org.sinau.beans.Professor;
-import org.sinau.beans.ProfessorDisciplina;
-import org.sinau.beans.ProfessorDisciplinaPK;
 import org.sinau.db.DBManager;
 
 /**
